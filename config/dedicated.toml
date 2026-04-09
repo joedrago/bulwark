@@ -1,0 +1,4 @@
+listen_address = "0.0.0.0:7700"
+max_rooms = 100
+room_timeout_secs = 300
+reconnect_timeout_secs = 60

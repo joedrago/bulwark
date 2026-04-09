@@ -259,7 +259,7 @@ Status markers:
 - Add `.gitignore`, `rustfmt.toml` (standard settings), basic `README.md`
 - Verify: `cargo build` succeeds, both binaries run on the developer's OS
 
-#### Phase 1.2: Configuration System `[ ]`
+#### Phase 1.2: Configuration System `[x]`
 
 **Goal**: Both executables read TOML config files.
 

@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 bulwark-core = { path = "../bulwark-core" }
 bulwark-net = { path = "../bulwark-net" }
+macroquad = "0.4"

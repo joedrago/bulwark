@@ -273,7 +273,7 @@ Status markers:
 - Both print loaded config summary on startup
 - Verify: Edit TOML values, see them reflected in startup output
 
-#### Phase 1.3: Macroquad Window & Basic Rendering `[ ]`
+#### Phase 1.3: Macroquad Window & Basic Rendering `[x]`
 
 **Goal**: App opens a GPU-accelerated window with configurable graphics mode.
 

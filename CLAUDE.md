@@ -62,7 +62,7 @@ cargo clippy                   # Lint check
 ## Tech stack summary
 
 - **Framework**: Macroquad (immediate-mode 2D rendering, keyboard/mouse input, windowing)
-- **Gamepad**: gilrs
+- **Gamepad**: `objc2-game-controller` on macOS, `gilrs` on Windows/Linux (platform abstraction in `bulwark-app/src/gamepad/`)
 - **Audio**: kira (game audio with mixer, crossfading, tweening)
 - **UI**: egui + egui-macroquad (menus, settings)
 - **Networking**: tokio + quinn (QUIC)

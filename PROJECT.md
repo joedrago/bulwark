@@ -155,7 +155,8 @@ When a Room is created on a Dedicated, it gets a random 4-letter code (e.g., "XK
 | Game framework / rendering | `macroquad` | Lightweight immediate-mode 2D framework. Built-in windowing (miniquad), keyboard/mouse input, texture/sprite drawing. Minimal boilerplate, fast compiles, cross-platform. |
 | In-game UI / menus | `egui` + `egui-macroquad` | Immediate-mode UI on top of Macroquad. Settings screens, lobby UI, debug overlays. In-game HUD drawn directly with Macroquad draw calls for custom look. |
 | Audio | `kira` | Purpose-built game audio. Mixer graph, crossfading, clock-synced transitions, tweening. Pure Rust (uses `cpal` under the hood). |
-| Gamepad input | `gilrs` | Gold standard for Rust gamepad support. Xbox/PS/Switch Pro, hot-plugging, mapped inputs. |
+| Gamepad input (macOS) | `objc2-game-controller` | Pure Rust bindings to Apple's GCController framework. Required because gilrs uses IOKit which doesn't see modern Xbox controllers on macOS. |
+| Gamepad input (Win/Linux) | `gilrs` | Gold standard for Rust gamepad support. Xbox/PS/Switch Pro, hot-plugging, mapped inputs. |
 | Networking | `tokio` + `quinn` | Async runtime + QUIC protocol. Reliable streams for control messages, unreliable datagrams for frequent state snapshots. Built-in TLS 1.3 encryption. |
 | Serialization (network) | `serde` + `bincode` | Compact binary serialization for network packets. |
 | Serialization (config) | `serde` + `toml` | Human-readable config files. |
@@ -299,7 +300,7 @@ Status markers:
 
 ### Milestone 2: App State Machine & Menus
 
-#### Phase 2.1: App State Machine `[ ]`
+#### Phase 2.1: App State Machine `[x]`
 
 **Goal**: App has distinct states with transitions.
 

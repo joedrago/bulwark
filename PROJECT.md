@@ -284,7 +284,7 @@ Status markers:
 - Draw a simple test grid of colored rectangles to verify 2D rendering works
 - Verify: Window opens at configured resolution, mode switching works, grid renders
 
-#### Phase 1.4: Input Foundation `[ ]`
+#### Phase 1.4: Input Foundation `[x]`
 
 **Goal**: Keyboard, mouse, and gamepad input is detected and displayed.
 

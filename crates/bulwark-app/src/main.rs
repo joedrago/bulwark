@@ -1,6 +1,7 @@
 mod gamepad;
 mod input_mapping;
 mod states;
+mod ui;
 
 use bulwark_core::config::{self, AppConfig, DisplayMode, UserConfig};
 use bulwark_core::input::{self, InputAction};

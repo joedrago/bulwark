@@ -311,7 +311,7 @@ Status markers:
 - Transitions: Splash -> MainMenu (auto), MainMenu -> Settings / Lobby (on selection)
 - Verify: App boots to splash, transitions to menu, selections change state
 
-#### Phase 2.2: Menu System `[ ]`
+#### Phase 2.2: Menu System `[x]`
 
 **Goal**: Navigable menus driven entirely by keyboard/gamepad (mouse optional).
 

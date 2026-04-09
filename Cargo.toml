@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "crates/bulwark-core",
+    "crates/bulwark-net",
+    "crates/bulwark-app",
+    "crates/bulwark-dedicated",
+]
+resolver = "2"

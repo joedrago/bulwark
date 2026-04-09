@@ -248,7 +248,7 @@ Status markers:
 
 ### Milestone 1: Project Skeleton
 
-#### Phase 1.1: Cargo Workspace & Hello World `[ ]`
+#### Phase 1.1: Cargo Workspace & Hello World `[x]`
 
 **Goal**: Both executables compile and print to stdout.
 

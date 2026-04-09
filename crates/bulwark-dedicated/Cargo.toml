@@ -1,0 +1,8 @@
+[package]
+name = "bulwark-dedicated"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bulwark-core = { path = "../bulwark-core" }
+bulwark-net = { path = "../bulwark-net" }

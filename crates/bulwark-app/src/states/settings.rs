@@ -17,12 +17,19 @@ impl SettingsState {
 
     pub fn update(&mut self, _dt: f32, input: &FrameInput) -> Option<AppState> {
         match self.menu.update(input.mouse_pos, &input.actions) {
-            MenuAction::Activated(i) => {
-                if i == SETTINGS_ITEMS.len() - 1 {
-                    return Some(AppState::MainMenu(super::main_menu::MainMenuState::new()));
-                }
-                None // Other items are stubs for now
-            }
+            MenuAction::Activated(i) => match i {
+                0 => Some(AppState::SettingsGraphics(
+                    super::settings_graphics::GraphicsSettingsState::new(),
+                )),
+                1 => Some(AppState::SettingsAudio(
+                    super::settings_audio::AudioSettingsState::new(),
+                )),
+                2 => Some(AppState::SettingsControls(
+                    super::settings_controls::ControlsSettingsState::new(),
+                )),
+                3 => Some(AppState::MainMenu(super::main_menu::MainMenuState::new())),
+                _ => None,
+            },
             MenuAction::Cancel => Some(AppState::MainMenu(super::main_menu::MainMenuState::new())),
             MenuAction::None => None,
         }

@@ -58,7 +58,10 @@ impl Default for AppConfig {
             window: WindowConfig {
                 width: 1280,
                 height: 720,
+                #[cfg(target_os = "macos")]
                 mode: DisplayMode::Windowed,
+                #[cfg(not(target_os = "macos"))]
+                mode: DisplayMode::Borderless,
                 vsync: true,
             },
             audio: AudioConfig {
@@ -113,6 +116,34 @@ pub struct ControlsConfig {
     pub key_cancel: String,
     pub key_rotate_cw: String,
     pub key_rotate_ccw: String,
+    pub gamepad: GamepadConfig,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GamepadConfig {
+    pub btn_up: String,
+    pub btn_down: String,
+    pub btn_left: String,
+    pub btn_right: String,
+    pub btn_accept: String,
+    pub btn_cancel: String,
+    pub btn_rotate_cw: String,
+    pub btn_rotate_ccw: String,
+}
+
+impl Default for GamepadConfig {
+    fn default() -> Self {
+        Self {
+            btn_up: "DPadUp".to_string(),
+            btn_down: "DPadDown".to_string(),
+            btn_left: "DPadLeft".to_string(),
+            btn_right: "DPadRight".to_string(),
+            btn_accept: "A".to_string(),
+            btn_cancel: "B".to_string(),
+            btn_rotate_cw: "X".to_string(),
+            btn_rotate_ccw: "Y".to_string(),
+        }
+    }
 }
 
 impl Default for UserConfig {
@@ -136,6 +167,7 @@ impl Default for ControlsConfig {
             key_cancel: "Escape".to_string(),
             key_rotate_cw: "E".to_string(),
             key_rotate_ccw: "Q".to_string(),
+            gamepad: GamepadConfig::default(),
         }
     }
 }

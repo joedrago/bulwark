@@ -322,7 +322,7 @@ Status markers:
 - Menu selection sound effect (placeholder beep)
 - Verify: Full menu navigation with keyboard and gamepad, Cancel returns to parent menu
 
-#### Phase 2.3: Settings Screens `[ ]`
+#### Phase 2.3: Settings Screens `[x]`
 
 **Goal**: Configurable settings that persist to `user.toml`.
 

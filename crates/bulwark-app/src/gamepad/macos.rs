@@ -1,5 +1,4 @@
 use super::GamepadEvent;
-use bulwark_core::input::InputAction;
 use objc2_game_controller::{GCController, GCControllerButtonInput, GCDevice, GCExtendedGamepad};
 
 pub struct PlatformGamepad {
@@ -26,6 +25,27 @@ struct ButtonSnapshot {
     button_menu: bool,
     button_options: bool,
 }
+
+/// All known button names and their snapshot accessor.
+type ButtonCheck = (&'static str, fn(&ButtonSnapshot) -> bool);
+const BUTTON_NAMES: &[ButtonCheck] = &[
+    ("DPadUp", |s| s.dpad_up),
+    ("DPadDown", |s| s.dpad_down),
+    ("DPadLeft", |s| s.dpad_left),
+    ("DPadRight", |s| s.dpad_right),
+    ("A", |s| s.button_a),
+    ("B", |s| s.button_b),
+    ("X", |s| s.button_x),
+    ("Y", |s| s.button_y),
+    ("LB", |s| s.left_shoulder),
+    ("RB", |s| s.right_shoulder),
+    ("LT", |s| s.left_trigger),
+    ("RT", |s| s.right_trigger),
+    ("L3", |s| s.left_stick_button),
+    ("R3", |s| s.right_stick_button),
+    ("Menu", |s| s.button_menu),
+    ("Options", |s| s.button_options),
+];
 
 fn get_first_controller() -> Option<objc2::rc::Retained<GCController>> {
     let controllers = unsafe { GCController::controllers() };
@@ -76,38 +96,12 @@ impl PlatformGamepad {
 
         let current = read_buttons(&gamepad);
 
-        // Detect newly pressed buttons (edge detection)
-        type ButtonCheck = (
-            &'static str,
-            Option<InputAction>,
-            fn(&ButtonSnapshot) -> bool,
-        );
-        let button_checks: &[ButtonCheck] = &[
-            ("DPadUp", Some(InputAction::Up), |s| s.dpad_up),
-            ("DPadDown", Some(InputAction::Down), |s| s.dpad_down),
-            ("DPadLeft", Some(InputAction::Left), |s| s.dpad_left),
-            ("DPadRight", Some(InputAction::Right), |s| s.dpad_right),
-            ("A", Some(InputAction::Accept), |s| s.button_a),
-            ("B", Some(InputAction::Cancel), |s| s.button_b),
-            ("X", None, |s| s.button_x),
-            ("Y", None, |s| s.button_y),
-            ("LB", Some(InputAction::RotateCCW), |s| s.left_shoulder),
-            ("RB", Some(InputAction::RotateCW), |s| s.right_shoulder),
-            ("LT", Some(InputAction::RotateCCW), |s| s.left_trigger),
-            ("RT", Some(InputAction::RotateCW), |s| s.right_trigger),
-            ("L3", None, |s| s.left_stick_button),
-            ("R3", None, |s| s.right_stick_button),
-            ("Menu", None, |s| s.button_menu),
-            ("Options", None, |s| s.button_options),
-        ];
-
-        for (btn_name, action, getter) in button_checks {
+        for (btn_name, getter) in BUTTON_NAMES {
             let is_now = getter(&current);
             let was_before = getter(&self.prev_buttons);
             if is_now && !was_before {
                 events.push(GamepadEvent::ButtonPressed {
                     button: btn_name.to_string(),
-                    action: *action,
                 });
             }
         }

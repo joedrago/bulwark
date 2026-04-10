@@ -38,8 +38,7 @@ impl InputAction {
     }
 }
 
-/// Maps a config key name to an InputAction.
-/// Returns all (key_name, action) pairs from the controls config.
+/// Returns all (key_name, action) pairs from the keyboard controls config.
 pub fn bindings_from_config(config: &ControlsConfig) -> Vec<(String, InputAction)> {
     vec![
         (config.key_up.clone(), InputAction::Up),
@@ -50,5 +49,21 @@ pub fn bindings_from_config(config: &ControlsConfig) -> Vec<(String, InputAction
         (config.key_cancel.clone(), InputAction::Cancel),
         (config.key_rotate_cw.clone(), InputAction::RotateCW),
         (config.key_rotate_ccw.clone(), InputAction::RotateCCW),
+    ]
+}
+
+/// Returns all (button_name, action) pairs from the gamepad config.
+pub fn gamepad_bindings_from_config(
+    config: &crate::config::GamepadConfig,
+) -> Vec<(String, InputAction)> {
+    vec![
+        (config.btn_up.clone(), InputAction::Up),
+        (config.btn_down.clone(), InputAction::Down),
+        (config.btn_left.clone(), InputAction::Left),
+        (config.btn_right.clone(), InputAction::Right),
+        (config.btn_accept.clone(), InputAction::Accept),
+        (config.btn_cancel.clone(), InputAction::Cancel),
+        (config.btn_rotate_cw.clone(), InputAction::RotateCW),
+        (config.btn_rotate_ccw.clone(), InputAction::RotateCCW),
     ]
 }

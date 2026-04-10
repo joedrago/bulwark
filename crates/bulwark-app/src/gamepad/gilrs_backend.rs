@@ -1,8 +1,30 @@
 use super::GamepadEvent;
-use bulwark_core::input::InputAction;
 
 pub struct PlatformGamepad {
     gilrs: gilrs::Gilrs,
+}
+
+/// Map gilrs button enum to our canonical button names (matching macOS names).
+fn gilrs_button_name(btn: gilrs::Button) -> &'static str {
+    match btn {
+        gilrs::Button::South => "A",
+        gilrs::Button::East => "B",
+        gilrs::Button::West => "X",
+        gilrs::Button::North => "Y",
+        gilrs::Button::LeftTrigger => "LB",
+        gilrs::Button::RightTrigger => "RB",
+        gilrs::Button::LeftTrigger2 => "LT",
+        gilrs::Button::RightTrigger2 => "RT",
+        gilrs::Button::DPadUp => "DPadUp",
+        gilrs::Button::DPadDown => "DPadDown",
+        gilrs::Button::DPadLeft => "DPadLeft",
+        gilrs::Button::DPadRight => "DPadRight",
+        gilrs::Button::Select => "Options",
+        gilrs::Button::Start => "Menu",
+        gilrs::Button::LeftThumb => "L3",
+        gilrs::Button::RightThumb => "R3",
+        _ => "Unknown",
+    }
 }
 
 impl PlatformGamepad {
@@ -27,26 +49,9 @@ impl PlatformGamepad {
             match event {
                 gilrs::EventType::ButtonPressed(btn, _) => {
                     let name = self.gilrs.gamepad(id).name().to_string();
-                    let action = match btn {
-                        gilrs::Button::South => Some(InputAction::Accept),
-                        gilrs::Button::East => Some(InputAction::Cancel),
-                        gilrs::Button::RightTrigger | gilrs::Button::RightTrigger2 => {
-                            Some(InputAction::RotateCW)
-                        }
-                        gilrs::Button::LeftTrigger | gilrs::Button::LeftTrigger2 => {
-                            Some(InputAction::RotateCCW)
-                        }
-                        gilrs::Button::DPadUp => Some(InputAction::Up),
-                        gilrs::Button::DPadDown => Some(InputAction::Down),
-                        gilrs::Button::DPadLeft => Some(InputAction::Left),
-                        gilrs::Button::DPadRight => Some(InputAction::Right),
-                        _ => None,
-                    };
-                    // Ensure we report connected with the name
                     events.push(GamepadEvent::Connected { name });
                     events.push(GamepadEvent::ButtonPressed {
-                        button: format!("{:?}", btn),
-                        action,
+                        button: gilrs_button_name(btn).to_string(),
                     });
                 }
                 gilrs::EventType::AxisChanged(axis, val, _) => {

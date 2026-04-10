@@ -1,4 +1,5 @@
 use bulwark_core::input::InputAction;
+use std::collections::HashMap;
 
 #[cfg(target_os = "macos")]
 mod macos;
@@ -18,6 +19,8 @@ pub struct GamepadState {
     pub last_button: String,
     pub last_axis: String,
     actions_pressed: Vec<InputAction>,
+    /// Button name -> InputAction mapping from config.
+    button_map: HashMap<String, InputAction>,
 }
 
 impl GamepadState {
@@ -36,6 +39,15 @@ impl GamepadState {
             last_button: String::new(),
             last_axis: String::new(),
             actions_pressed: Vec::new(),
+            button_map: HashMap::new(),
+        }
+    }
+
+    /// Rebuild button mappings from config.
+    pub fn set_button_map(&mut self, bindings: &[(String, InputAction)]) {
+        self.button_map.clear();
+        for (btn, action) in bindings {
+            self.button_map.insert(btn.clone(), *action);
         }
     }
 
@@ -53,11 +65,11 @@ impl GamepadState {
                     self.connected = false;
                     self.gamepad_name.clear();
                 }
-                GamepadEvent::ButtonPressed { button, action } => {
+                GamepadEvent::ButtonPressed { button } => {
                     self.connected = true;
-                    self.last_button = button;
-                    if let Some(a) = action {
-                        self.actions_pressed.push(a);
+                    self.last_button = button.clone();
+                    if let Some(&action) = self.button_map.get(&button) {
+                        self.actions_pressed.push(action);
                     }
                 }
                 GamepadEvent::AxisChanged { axis } => {
@@ -75,15 +87,8 @@ impl GamepadState {
 
 /// Intermediate event type shared between backends.
 pub enum GamepadEvent {
-    Connected {
-        name: String,
-    },
+    Connected { name: String },
     Disconnected,
-    ButtonPressed {
-        button: String,
-        action: Option<InputAction>,
-    },
-    AxisChanged {
-        axis: String,
-    },
+    ButtonPressed { button: String },
+    AxisChanged { axis: String },
 }
